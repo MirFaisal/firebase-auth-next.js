@@ -19,12 +19,12 @@ const AuthComponent = () => {
   const auth = getAuth(firebase_App);
 
   // auth provider
-  const provider = new GoogleAuthProvider();
+  const googleProvider = new GoogleAuthProvider();
   const gitProvider = new GithubAuthProvider();
 
   // singIn handel
   const singIn = () => {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, googleProvider)
       .then((result) => {
         const provideuser = result.user;
         setUser(provideuser);
@@ -57,19 +57,20 @@ const AuthComponent = () => {
   return (
     <div>
       <h1 className=" text-3xl font-extrabold flex justify-center items-center">
-        Singin with Google
+        Singin with Firebase Auth
       </h1>
       <div className="flex justify-center mt-14">
         {/* 
         singin && singout button 
         */}
+
         {!user.displayName ? (
           <button
             onClick={() => singIn()}
             className="flex bg-blue-400 px-5 py-2 rounded-md text-white font-bold hover:bg-blue-300"
           >
             <AtSymbolIcon className="h-6 me-2" />
-            singin
+            Google
           </button>
         ) : (
           <button
@@ -81,13 +82,16 @@ const AuthComponent = () => {
           </button>
         )}
         {/* gitHub singin button */}
-        <button
-          onClick={() => singInWithGit()}
-          className="flex bg-blue-400 px-5 py-2 rounded-md text-white font-bold hover:bg-blue-300"
-        >
-          <AtSymbolIcon className="h-6 me-2" />
-          GitHub
-        </button>
+
+        {!user.displayName ? (
+          <button
+            onClick={() => singInWithGit()}
+            className="flex bg-blue-400 ms-5 px-5 py-2 rounded-md text-white font-bold hover:bg-blue-300"
+          >
+            <AtSymbolIcon className="h-6 me-2" />
+            GitHub
+          </button>
+        ) : null}
       </div>
 
       {user.displayName ? (
